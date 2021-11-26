@@ -32,7 +32,7 @@ class AuthService {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      User? user = result.user;
+      return _userModelFromFirebaseUser(result.user);
     } catch (e) {
       print(e.toString());
       return null;
