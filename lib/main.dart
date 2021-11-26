@@ -1,6 +1,9 @@
+import 'package:firebase_auth_app/models/user.dart';
 import 'package:firebase_auth_app/screens/wrapper.dart';
+import 'package:firebase_auth_app/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,12 +17,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Firebase Auth App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return StreamProvider<UserModel?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: const MaterialApp(
+        title: 'Firebase Auth App',
+        home: Wrapper(),
       ),
-      home: Wrapper(),
     );
   }
 }
