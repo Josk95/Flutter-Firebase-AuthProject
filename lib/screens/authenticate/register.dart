@@ -2,7 +2,8 @@ import 'package:firebase_auth_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+  final Function toggleView;
+  const Register({Key? key, required this.toggleView}) : super(key: key);
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -22,7 +23,22 @@ class _RegisterState extends State<Register> {
         appBar: AppBar(
           backgroundColor: Colors.blue[400],
           elevation: 0.0,
+          centerTitle: true,
           title: const Text('Register'),
+          actions: [
+            TextButton.icon(
+                onPressed: () {
+                  widget.toggleView();
+                },
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.black,
+                ),
+                label: Text(
+                  'Sign In',
+                  style: TextStyle(color: Colors.black),
+                ))
+          ],
         ),
         body: Container(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
