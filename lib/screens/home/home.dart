@@ -5,8 +5,25 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('home'),
+    return Scaffold(
+      backgroundColor: Colors.blue[50],
+      appBar: AppBar(
+        backgroundColor: Colors.blue[500],
+        elevation: 0.0,
+        title: Text('Welcome user'),
+        actions: [
+          TextButton.icon(
+              onPressed: () {},
+              icon: Icon(
+                Icons.person,
+                color: Colors.black,
+              ),
+              label: Text(
+                'Sign Out',
+                style: TextStyle(color: Colors.black),
+              ))
+        ],
+      ),
     );
   }
 }
