@@ -53,8 +53,7 @@ class _RegisterState extends State<Register> {
                         textStyle: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      print(email);
-                      print(password);
+                      _authService.registerWithEmail(email, password);
                     },
                     child: Text('Register'))
               ],

@@ -53,8 +53,7 @@ class _SignInState extends State<SignIn> {
                         textStyle: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      print(email);
-                      print(password);
+                      _authService.signInWithEmail(email, password);
                     },
                     child: Text('Sign in'))
               ],
