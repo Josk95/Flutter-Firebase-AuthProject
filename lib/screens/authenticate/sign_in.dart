@@ -12,10 +12,12 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //Text Field state
   String email = "";
   String password = "";
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +46,12 @@ class _SignInState extends State<SignIn> {
         body: Container(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 20),
                 TextFormField(
+                  validator: (value) => value!.isEmpty ? 'Enter email' : null,
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -57,22 +61,34 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 20),
                 TextFormField(
                   obscureText: true,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter password' : null,
                   onChanged: (value) {
                     setState(() {
                       password = value;
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Colors.blue[700],
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      _authService.signInWithEmail(email, password);
+                      if (_formKey.currentState!.validate()) {
+                        dynamic result =
+                            await _authService.signInWithEmail(email, password);
+
+                        if (result == null) {
+                          setState(() => error = 'Wrong credentials');
+                        }
+                      }
                     },
-                    child: Text('Sign in'))
+                    child: const Text('Sign in')),
+                const SizedBox(height: 20),
+                Text(error,
+                    style: const TextStyle(color: Colors.red, fontSize: 14)),
               ],
             ),
           ),
