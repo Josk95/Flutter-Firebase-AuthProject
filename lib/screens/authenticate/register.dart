@@ -11,10 +11,12 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   //Text Field state
   String email = "";
   String password = "";
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,11 @@ class _RegisterState extends State<Register> {
                 onPressed: () {
                   widget.toggleView();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                label: Text(
+                label: const Text(
                   'Sign In',
                   style: TextStyle(color: Colors.black),
                 ))
@@ -43,10 +45,12 @@ class _RegisterState extends State<Register> {
         body: Container(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
           child: Form(
+            key: _formKey,
             child: Column(
               children: [
                 const SizedBox(height: 20),
                 TextFormField(
+                  validator: (value) => value!.isEmpty ? 'Enter email' : null,
                   onChanged: (value) {
                     setState(() {
                       email = value;
@@ -56,22 +60,34 @@ class _RegisterState extends State<Register> {
                 const SizedBox(height: 20),
                 TextFormField(
                   obscureText: true,
+                  validator: (value) => value!.length < 6
+                      ? 'Enter a min 6 char long password'
+                      : null,
                   onChanged: (value) {
                     setState(() {
                       password = value;
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         primary: Colors.blue[700],
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold)),
                     onPressed: () async {
-                      _authService.registerWithEmail(email, password);
+                      if (_formKey.currentState!.validate()) {
+                        dynamic result = await _authService.registerWithEmail(
+                            email, password);
+                        if (result == null) {
+                          setState(() => error = 'Please enter a valid email');
+                        }
+                      }
                     },
-                    child: Text('Register'))
+                    child: const Text('Register')),
+                const SizedBox(height: 20),
+                Text(error,
+                    style: const TextStyle(color: Colors.red, fontSize: 14)),
               ],
             ),
           ),
