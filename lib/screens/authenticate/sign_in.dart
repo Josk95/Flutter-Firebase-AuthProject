@@ -1,4 +1,5 @@
 import 'package:firebase_auth_app/services/auth.dart';
+import 'package:firebase_auth_app/shared/constant.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -33,11 +34,11 @@ class _SignInState extends State<SignIn> {
                 onPressed: () {
                   widget.toggleView();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.person,
                   color: Colors.black,
                 ),
-                label: Text(
+                label: const Text(
                   'Register',
                   style: TextStyle(color: Colors.black),
                 ))
@@ -51,6 +52,9 @@ class _SignInState extends State<SignIn> {
               children: [
                 const SizedBox(height: 20),
                 TextFormField(
+                  decoration: textInputDecoration
+                      .copyWith(labelText: 'Email')
+                      .copyWith(icon: const Icon(Icons.email)),
                   validator: (value) => value!.isEmpty ? 'Enter email' : null,
                   onChanged: (value) {
                     setState(() {
@@ -60,6 +64,9 @@ class _SignInState extends State<SignIn> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  decoration: textInputDecoration
+                      .copyWith(labelText: 'Password')
+                      .copyWith(icon: const Icon(Icons.lock)),
                   obscureText: true,
                   validator: (value) =>
                       value!.isEmpty ? 'Enter password' : null,
