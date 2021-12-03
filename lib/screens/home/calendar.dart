@@ -40,6 +40,15 @@ class _CalendarState extends State<Calendar> {
     //return selectedEvents[date] ?? [];
   }
 
+  //Change colors of dots.
+  Color? dotColor() {
+    var color;
+    _getEventsfromDay(_selectedDay).map((event) => {
+          if (event.isBooked) {color = Colors.red} else {color = Colors.green}
+        });
+    return color;
+  }
+
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('sv');
@@ -134,6 +143,31 @@ class _CalendarState extends State<Calendar> {
         // No need to call `setState()` here
         _focusedDay = focusedDay;
       },
+      calendarBuilders: CalendarBuilders(
+        dowBuilder: (context, day) {
+          if (day.weekday == DateTime.sunday) {
+            final text = DateFormat.E().format(day);
+            return Center(
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }
+        },
+        singleMarkerBuilder: (context, day, Event selectedEvents) {
+          return Container(
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: selectedEvents.isBooked
+                    ? Colors.red
+                    : Colors.green), //Change color
+            width: 7.0,
+            height: 7.0,
+            margin: const EdgeInsets.symmetric(horizontal: 1.5),
+          );
+        },
+      ),
     );
   }
 }
