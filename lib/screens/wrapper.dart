@@ -12,10 +12,13 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<UserModel?>(context);
 
     //Return Home or Auth widget based on Users Auth state.
+    /*
     if (user == null) {
       return Authenticate();
     } else {
       return Home();
     }
+    */
+    return Home();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_auth_app/screens/home/calendar.dart';
 import 'package:firebase_auth_app/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,16 +20,22 @@ class Home extends StatelessWidget {
               onPressed: () async {
                 await _auth.signOut();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.person,
                 color: Colors.black,
               ),
-              label: Text(
+              label: const Text(
                 'Sign Out',
                 style: TextStyle(color: Colors.black),
               ))
         ],
       ),
+      body: TextButton(
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => Calendar()));
+          },
+          child: const Text('Kalender')),
     );
   }
 }
